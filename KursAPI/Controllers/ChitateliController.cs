@@ -31,9 +31,9 @@ namespace KursAPI.Controllers
         public async Task<ActionResult<Chitateli>> CreateChitatel([FromBody] Chitateli chit)
         {
             await chitService.Create(chit);
-            return CreatedAtAction(nameof(GetChitatelById), new { ChitatelId = chit.ChitatelId }, chit);
+            return CreatedAtAction(nameof(GetChitatelById), new { Id= chit.ChitatelId }, chit);
         }
-        [HttpPut("id")]
+        [HttpPut("{id}")]
         public async Task<ActionResult<Chitateli>> UpdateChitatel(int id,[FromBody] Chitateli chit)
         {
             if (chit.ChitatelId != id) return BadRequest();

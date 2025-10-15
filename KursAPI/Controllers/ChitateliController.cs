@@ -38,7 +38,7 @@ namespace KursAPI.Controllers
         {
             if (chit.ChitatelId != id) return BadRequest();
             await chitService.Update(chit);
-            return NoContent();
+            return Ok(chit);
         }
         [HttpDelete("id")]
         public async Task<IActionResult> Delete(int id)

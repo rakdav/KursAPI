@@ -1,5 +1,4 @@
 ﻿using KursAPI.Models;
-using KursAPI.Service;
 using Microsoft.EntityFrameworkCore;
 
 namespace KursAPI.Services

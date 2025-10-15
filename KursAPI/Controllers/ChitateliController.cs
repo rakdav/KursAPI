@@ -1,5 +1,4 @@
 ﻿using KursAPI.Models;
-using KursAPI.Service;
 using KursAPI.Services;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;

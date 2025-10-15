@@ -1,4 +1,4 @@
-﻿namespace KursAPI.Service
+﻿namespace KursAPI.Services
 {
     public interface IService<T>
     {

@@ -25,6 +25,7 @@ namespace KursAPI.Models
         public virtual DbSet<KatalogKnig> KatalogKnigs { get; set; }
 
         public virtual DbSet<VidachaKnig> VidachaKnigs { get; set; }
+        public virtual DbSet<Person> Persons { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

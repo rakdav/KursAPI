@@ -1,12 +1,15 @@
 ﻿using KursAPI.Models;
 using KursAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KursAPI.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+    [Route("api/[controller]")]
+
     public class ChitateliController : ControllerBase
     {
         private readonly ChitateliService chitService;

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,53 +26,82 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
             // будет ли валидироваться потребитель токена
             ValidateAudience=true,
             // установка потребителя токена
-            ValidAudience=AuthOptions.ISSUER,
+            ValidAudience=AuthOptions.AUDIENCE,
             // будет ли валидироваться время существования
             ValidateLifetime=true,
             // установка ключа безопасности
-            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+            IssuerSigningKey = AuthOptions.GetSimmetricSecurutyKey(),
             // валидация ключа безопасности
             ValidateIssuerSigningKey = true
         };
     });
 
 var app = builder.Build();
+app.MapControllers();
+app.UseAuthentication();
+app.UseAuthorization();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 app.UseHttpsRedirection();
-app.UseAuthentication();
-app.MapPost("/login", (Person loginData,Kursdb15Context db) => 
+app.MapPost("/login", async (Person user, Kursdb15Context db) =>
 {
-    Person person=db.Persons.FirstOrDefault(p=>p.Email== loginData.Email&&p.Password==loginData.Password)!;
+    Person? person = await db.Persons!.FirstOrDefaultAsync(p => p.Email == user.Email && p.Password == user.Password);
     if (person is null) return Results.Unauthorized();
-    
-    var claims = new List<Claim> { new Claim(ClaimTypes.Name, person.Email) };
-    var jwt = new JwtSecurityToken(issuer: AuthOptions.ISSUER,
+    var claims = new List<Claim> { new Claim(ClaimTypes.Email, user.Email) };
+    var jwt = new JwtSecurityToken
+    (
+        issuer: AuthOptions.ISSUER,
         audience: AuthOptions.AUDIENCE,
         claims: claims,
-        expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(2)),
-        signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-    var encodedJWT= new JwtSecurityTokenHandler().WriteToken(jwt);
+        expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(5)),
+        signingCredentials: new SigningCredentials(AuthOptions.GetSimmetricSecurutyKey(), SecurityAlgorithms.HmacSha256));
+    var encoderJWT = new JwtSecurityTokenHandler().WriteToken(jwt);
     var response = new
     {
-        access_token = encodedJWT,
+        access_token = encoderJWT,
         username = person.Email
     };
     return Results.Json(response);
+}
+);
+app.MapPost("/register", async (Person user, Kursdb15Context db) =>
+{
+    byte[] salt = AuthOptions.GenerateSalt();
+    byte[] sha256Hash = AuthOptions.GenerateSha256Hash(user.Password, salt);
+    user.Password= Convert.ToBase64String(sha256Hash);
+    db.Persons.Add(user);
+    await db.SaveChangesAsync();
 });
-
-app.UseAuthorization();
-app.MapControllers();
 app.Run();
 
 public class AuthOptions
 {
-    public const string ISSUER = "MyAuthServer"; // издатель токена
-    public const string AUDIENCE = "MyAuthClient"; // потребитель токена
-    const string KEY = "mysupersecret_secretsecretsecretkey!123";   // ключ для шифрации
-    public static SymmetricSecurityKey GetSymmetricSecurityKey() =>
-      new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
+    public const string ISSUER = "MyAuthServer";
+    public const string AUDIENCE = "MyAuthClient";
+    const string KEY = "mysupersecret_secretsecretkey!123";
+    public static SymmetricSecurityKey GetSimmetricSecurutyKey() =>
+        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
+    public static byte[] GenerateSalt()
+    {
+        const int SaltLength = 64;
+        byte[] salt = new byte[SaltLength];
+
+        var rngRand = new RNGCryptoServiceProvider();
+        rngRand.GetBytes(salt);
+
+        return salt;
+    }
+    public static byte[] GenerateSha256Hash(string password, byte[] salt)
+    {
+        byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
+        byte[] saltedPassword = new byte[salt.Length + passwordBytes.Length];
+
+        using var hash = new SHA256CryptoServiceProvider();
+
+        return hash.ComputeHash(saltedPassword);
+    }
 }
+

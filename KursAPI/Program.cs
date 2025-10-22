@@ -43,14 +43,11 @@ if (app.Environment.IsDevelopment())
 }
 app.UseHttpsRedirection();
 app.UseAuthentication();
-app.MapPost("/login", (Person loginData) => 
+app.MapPost("/login", (Person loginData,Kursdb15Context db) => 
 {
-    Person person = null!;
-    using (Kursdb15Context db = new Kursdb15Context()) 
-    {
-        person =db.Persons.FirstOrDefault(p=>p.Email== loginData.Email&&p.Password==loginData.Password)!;
-        if (person is null) return Results.Unauthorized();
-    }
+    Person person=db.Persons.FirstOrDefault(p=>p.Email== loginData.Email&&p.Password==loginData.Password)!;
+    if (person is null) return Results.Unauthorized();
+    
     var claims = new List<Claim> { new Claim(ClaimTypes.Name, person.Email) };
     var jwt = new JwtSecurityToken(issuer: AuthOptions.ISSUER,
         audience: AuthOptions.AUDIENCE,

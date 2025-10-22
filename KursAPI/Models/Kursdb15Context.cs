@@ -9,13 +9,13 @@ namespace KursAPI.Models
     {
         public Kursdb15Context()
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
 
         public Kursdb15Context(DbContextOptions<Kursdb15Context> options)
             : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
 
         public virtual DbSet<AbonimentnieKartochki> AbonimentnieKartochkis { get; set; }
@@ -29,6 +29,18 @@ namespace KursAPI.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Person>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.ToTable("Admin");
+                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Email)
+                    .HasMaxLength(50)
+                    .IsUnicode(true);
+                entity.Property(e => e.Password)
+                    .HasMaxLength(300)
+                    .IsUnicode(false);
+            });
             modelBuilder.Entity<AbonimentnieKartochki>(entity =>
             {
                 entity.HasKey(e => e.ChitatelId);

@@ -33,7 +33,6 @@ namespace KursAPI.Models
             {
                 entity.HasKey(e => e.Id);
                 entity.ToTable("Admin");
-                entity.Property(e => e.Id).ValueGeneratedNever();
                 entity.Property(e => e.Email)
                     .HasMaxLength(50)
                     .IsUnicode(true);

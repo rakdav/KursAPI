@@ -70,10 +70,12 @@ app.MapPost("/login", async (Person user, Kursdb15Context db) =>
 app.MapPost("/register", async (Person user, Kursdb15Context db) =>
 {
     byte[] salt = AuthOptions.GenerateSalt();
-    byte[] sha256Hash = AuthOptions.GenerateSha256Hash(user.Password, salt);
+    byte[] sha256Hash = AuthOptions.GenerateRsaHash(user.Password, salt);
     user.Password= Convert.ToBase64String(sha256Hash);
     db.Persons.Add(user);
     await db.SaveChangesAsync();
+    Person createdUser = db.Persons.FirstOrDefault(p => p.Email == user.Email)!;
+    return Results.Ok(createdUser);
 });
 app.Run();
 
@@ -88,20 +90,18 @@ public class AuthOptions
     {
         const int SaltLength = 64;
         byte[] salt = new byte[SaltLength];
-
-        var rngRand = new RNGCryptoServiceProvider();
+        var rngRand = RandomNumberGenerator.Create();
         rngRand.GetBytes(salt);
-
         return salt;
     }
-    public static byte[] GenerateSha256Hash(string password, byte[] salt)
+    public static byte[] GenerateRsaHash(string password, byte[] salt)
     {
         byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
         byte[] saltedPassword = new byte[salt.Length + passwordBytes.Length];
 
-        using var hash = new SHA256CryptoServiceProvider();
+        using var hash = new RSACryptoServiceProvider();
 
-        return hash.ComputeHash(saltedPassword);
+        return hash.Encrypt(saltedPassword,true);
     }
 }
 

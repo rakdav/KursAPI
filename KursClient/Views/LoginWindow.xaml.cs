@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using KursClient.Views;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -14,11 +15,17 @@ namespace KursClient
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class LoginWindow : Window
     {
-        public MainWindow()
+        public LoginWindow()
         {
             InitializeComponent();
+        }
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            RegisterWindow regWindow = new RegisterWindow();
+            regWindow.Show();
         }
     }
 }

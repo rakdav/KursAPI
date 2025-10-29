@@ -37,7 +37,7 @@ namespace KursAPI.Models
                     .HasMaxLength(50)
                     .IsUnicode(true);
                 entity.Property(e => e.Password)
-                    .HasMaxLength(300)
+                    .HasMaxLength(2000)
                     .IsUnicode(false);
             });
             modelBuilder.Entity<AbonimentnieKartochki>(entity =>

@@ -48,8 +48,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.MapPost("/login", async (Person user, Kursdb15Context db) =>
 {
-    Person? person = await db.Persons!.FirstOrDefaultAsync(p => p.Email == user.Email && p.Password == user.Password);
+    Person? person = await db.Persons!.FirstOrDefaultAsync(p => p.Email == user.Email);
+    string Password = AuthOptions.GetHash(user.Password);
     if (person is null) return Results.Unauthorized();
+    if (person.Password != Password) return Results.Unauthorized();
     var claims = new List<Claim> { new Claim(ClaimTypes.Email, user.Email) };
     var jwt = new JwtSecurityToken
     (
@@ -69,16 +71,13 @@ app.MapPost("/login", async (Person user, Kursdb15Context db) =>
 );
 app.MapPost("/register", async (Person user, Kursdb15Context db) =>
 {
-    byte[] salt = AuthOptions.GenerateSalt();
-    byte[] sha256Hash = AuthOptions.GenerateRsaHash(user.Password, salt);
-    user.Password= Convert.ToBase64String(sha256Hash);
+    user.Password= AuthOptions.GetHash(user.Password);
     db.Persons.Add(user);
     await db.SaveChangesAsync();
     Person createdUser = db.Persons.FirstOrDefault(p => p.Email == user.Email)!;
     return Results.Ok(createdUser);
 });
 app.Run();
-
 public class AuthOptions
 {
     public const string ISSUER = "MyAuthServer";
@@ -86,22 +85,11 @@ public class AuthOptions
     const string KEY = "mysupersecret_secretsecretkey!123";
     public static SymmetricSecurityKey GetSimmetricSecurutyKey() =>
         new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
-    public static byte[] GenerateSalt()
+    public static string GetHash(string plaintext)
     {
-        const int SaltLength = 64;
-        byte[] salt = new byte[SaltLength];
-        var rngRand = RandomNumberGenerator.Create();
-        rngRand.GetBytes(salt);
-        return salt;
-    }
-    public static byte[] GenerateRsaHash(string password, byte[] salt)
-    {
-        byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
-        byte[] saltedPassword = new byte[salt.Length + passwordBytes.Length];
-
-        using var hash = new RSACryptoServiceProvider();
-
-        return hash.Encrypt(saltedPassword,true);
+        var sha = new SHA1Managed();
+        byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes(plaintext));
+        return Convert.ToBase64String(hash);
     }
 }
 

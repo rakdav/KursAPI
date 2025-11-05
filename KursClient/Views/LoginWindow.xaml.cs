@@ -1,4 +1,5 @@
-﻿using KursClient.Views;
+﻿using KursClient.ViewModels;
+using KursClient.Views;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,6 +21,7 @@ namespace KursClient
         public LoginWindow()
         {
             InitializeComponent();
+            DataContext = new LoginViewModel();
         }
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)

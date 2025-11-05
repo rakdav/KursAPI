@@ -4,11 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KursClient"
+         xmlns:vm="clr-namespace:KursClient.ViewModels"
         mc:Ignorable="d"
         Title="Авторизация" Height="250" Width="300"
         WindowStyle="SingleBorderWindow"
         Background="Black"
         Visibility="{Binding Visibility, Mode=TwoWay}">
+    <Window.DataContext>
+        <vm:LoginViewModel/>
+    </Window.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>

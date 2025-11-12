@@ -18,10 +18,13 @@ namespace KursClient.ViewModels
             set { _currentView = value; OnPropertyChanged(); }
         }
         public ICommand HomeCommand { get; set; }
-        private void Home(object obj) => CurrentView = new HomeViewModel();
+        public ICommand ChitateliCommand { get; set; }
+        private void HomeView(object obj) => CurrentView = new HomeViewModel();
+        private void ChitateliView(object obj) => CurrentView = new ChitateliViewModel();
         public NavigationViewModel()
         {
-            HomeCommand = new RelayCommand(Home);
+            HomeCommand = new RelayCommand(HomeView);
+            ChitateliCommand = new RelayCommand(ChitateliView);
             CurrentView = new HomeViewModel();
         }
     }

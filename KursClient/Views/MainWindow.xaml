@@ -25,17 +25,31 @@
             <Grid HorizontalAlignment="Left" Width="228">
                 <Border Background="#272B2F"
                         CornerRadius="20,0,0,20" />
-                <!--// Home //-->
-                <Menu:Btn Style="{StaticResource BtnStyle}"
+                <StackPanel Height="400"
+                            Width="228">
+                    <!--// Home //-->
+                    <Menu:Btn Style="{StaticResource BtnStyle}"
                               Command="{Binding HomeCommand}"
                               IsChecked="True">
-                    <Grid>
-                        <Image Source="/Assets/img_home.png"
+                        <Grid>
+                            <Image Source="/Assets/img_home.png"
                                    Style="{StaticResource Image_Style}" />
-                        <TextBlock Text="Домой"
+                            <TextBlock Text="Домой"
                                        Style="{StaticResource Text_Style}" />
-                    </Grid>
-                </Menu:Btn>
+                        </Grid>
+                    </Menu:Btn>
+                    <!--// Chitateli //-->
+                    <Menu:Btn Style="{StaticResource BtnStyle}"
+              Command="{Binding ChitateliCommand}"
+              IsChecked="False">
+                        <Grid>
+                            <Image Source="/Assets/book-open.png"
+                   Style="{StaticResource Image_Style}" />
+                            <TextBlock Text="Читатели"
+                       Style="{StaticResource Text_Style}" />
+                        </Grid>
+                    </Menu:Btn>
+                </StackPanel>
             </Grid>
             <Grid Grid.Column="1">
 

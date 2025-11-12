@@ -3,6 +3,8 @@ using KursClient.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,6 +12,15 @@ namespace KursClient.Services
 {
     public class ChitateliService : BaseService<Chitateli>
     {
+        private HttpClient httpClient;
+
+        public ChitateliService()
+        {
+            httpClient=new HttpClient();
+            httpClient.DefaultRequestHeaders.Add("Authorization",
+                "Bearer " + RegisterUser.access_token);
+        }
+
         public override bool Add(Chitateli obj)
         {
             throw new NotImplementedException();
@@ -20,10 +31,11 @@ namespace KursClient.Services
             throw new NotImplementedException();
         }
 
-        public override List<Chitateli> GetAll()
+        public override async Task<List<Chitateli>> GetAll()
         {
-            throw new NotImplementedException();
+            return (await httpClient.GetFromJsonAsync<List<Chitateli>>("https://localhost:7229/api/Chitateli"))!;
         }
+
 
         public override List<Chitateli> Search(string str)
         {

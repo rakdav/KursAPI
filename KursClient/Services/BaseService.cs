@@ -8,7 +8,7 @@ namespace KursClient.Services
 {
     public abstract class BaseService<T>
     {
-        public abstract List<T> GetAll();
+        public abstract Task<List<T>> GetAll();
         public abstract bool Add(T obj);
         public abstract bool Update(T obj);
         public abstract bool Delete(T obj);

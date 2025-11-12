@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KursClient.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,18 +16,24 @@ using System.Windows.Shapes;
 namespace KursClient.Views
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для AddEditChitatel.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AddEditChitatel : Window
     {
-        public MainWindow()
+        public Chitateli Chitatel { get;  private set; }
+        public AddEditChitatel()
         {
             InitializeComponent();
         }
-        private void CloseApp_Click(object sender, RoutedEventArgs e)
+
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Close();
-            LoginWindow.Instance.Close();
+            DialogResult = true;
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            DialogResult= false;
         }
     }
 }

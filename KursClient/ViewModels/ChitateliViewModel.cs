@@ -1,6 +1,8 @@
 ﻿using KursClient.Models;
 using KursClient.Services;
 using KursClient.Utills;
+using KursClient.Views;
+using KursProjectISP31.Utills;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -43,6 +45,24 @@ namespace KursClient.ViewModels
             catch(Exception ex) 
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+        private RelayCommand addCommand;
+        public RelayCommand AddCommand
+        {
+            get
+            {
+                return addCommand ??
+                  (addCommand = new RelayCommand(async obj =>
+                  {
+                      AddEditChitatel window=new AddEditChitatel();
+                      if (window.ShowDialog() == true)
+                      {
+                          Chitateli chitatel=new Chitateli();
+                          chitatel.FirstName=window.Chitatel.FirstName;
+                          chitatel.LastName = window.Chitatel.LastName;
+                      }
+                  }));
             }
         }
 

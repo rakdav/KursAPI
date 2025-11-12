@@ -12,15 +12,6 @@ namespace KursClient.Services
 {
     public class ChitateliService : BaseService<Chitateli>
     {
-        private HttpClient httpClient;
-
-        public ChitateliService()
-        {
-            httpClient=new HttpClient();
-            httpClient.DefaultRequestHeaders.Add("Authorization",
-                "Bearer " + RegisterUser.access_token);
-        }
-
         public override bool Add(Chitateli obj)
         {
             throw new NotImplementedException();
@@ -33,6 +24,9 @@ namespace KursClient.Services
 
         public override async Task<List<Chitateli>> GetAll()
         {
+            HttpClient httpClient=new HttpClient();
+            httpClient.DefaultRequestHeaders.Add("Authorization",
+                "Bearer " + RegisterUser.access_token);
             return (await httpClient.GetFromJsonAsync<List<Chitateli>>("https://localhost:7229/api/Chitateli"))!;
         }
 

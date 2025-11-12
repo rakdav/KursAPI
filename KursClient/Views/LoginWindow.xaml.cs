@@ -18,9 +18,11 @@ namespace KursClient
     /// </summary>
     public partial class LoginWindow : Window
     {
+        public static LoginWindow Instance { get; private set; }
         public LoginWindow()
         {
             InitializeComponent();
+            Instance = this;
         }
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)

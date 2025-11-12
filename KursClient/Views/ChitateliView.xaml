@@ -21,6 +21,10 @@
                     <RowDefinition Height="9*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0">
+                    <Button Style="{StaticResource ToolBarButtonBaseStyle}"
+                            Command="{Binding AddCommand}"/>
+                </StackPanel>
                 <DataGrid ItemsSource="{Binding ChitateliList}"
                           AutoGenerateColumns="False"
                           Grid.Row="1" IsReadOnly="True">

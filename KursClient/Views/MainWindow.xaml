@@ -4,9 +4,48 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KursClient.Views"
+        xmlns:vm="clr-namespace:KursClient.ViewModels"
+        xmlns:Menu="clr-namespace:KursClient.Utills"
         mc:Ignorable="d"
-        Title="Главное окно" Height="450" Width="800">
+        Title="Главное окно" Height="500" Width="900"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        Background="Transparent">
+    <Window.DataContext>
+        <vm:NavigationViewModel/>
+    </Window.DataContext>
     <Grid>
-        
+        <Border Background="#212529" CornerRadius="20" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="228" />
+                <ColumnDefinition Width="622" />
+            </Grid.ColumnDefinitions>
+            <Grid HorizontalAlignment="Left" Width="228">
+                <Border Background="#272B2F"
+                        CornerRadius="20,0,0,20" />
+                <!--// Home //-->
+                <Menu:Btn Style="{StaticResource BtnStyle}"
+                              Command="{Binding HomeCommand}"
+                              IsChecked="True">
+                    <Grid>
+                        <Image Source="/Assets/img_home.png"
+                                   Style="{StaticResource Image_Style}" />
+                        <TextBlock Text="Домой"
+                                       Style="{StaticResource Text_Style}" />
+                    </Grid>
+                </Menu:Btn>
+            </Grid>
+            <Grid Grid.Column="1">
+
+                <ContentControl x:Name="Pages"
+                         Content="{Binding CurrentView}" />
+
+            </Grid>
+        </Grid>
+       
+        <Button x:Name="CloseApp"
+                Style="{StaticResource ExitApp}" Click="CloseApp_Click"/>
     </Grid>
 </Window>

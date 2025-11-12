@@ -8,4 +8,30 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Assets\add.png" />
+    <None Remove="Assets\block.png" />
+    <None Remove="Assets\book-open.png" />
+    <None Remove="Assets\home_page.png" />
+    <None Remove="Assets\img_customer.png" />
+    <None Remove="Assets\img_home.png" />
+    <None Remove="Assets\search.png" />
+    <None Remove="Assets\shutdown_def.png" />
+    <None Remove="Assets\shutdown_mo.png" />
+    <None Remove="Assets\table.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\add.png" />
+    <Resource Include="Assets\block.png" />
+    <Resource Include="Assets\book-open.png" />
+    <Resource Include="Assets\home_page.png" />
+    <Resource Include="Assets\img_customer.png" />
+    <Resource Include="Assets\img_home.png" />
+    <Resource Include="Assets\search.png" />
+    <Resource Include="Assets\shutdown_def.png" />
+    <Resource Include="Assets\shutdown_mo.png" />
+    <Resource Include="Assets\table.png" />
+  </ItemGroup>
+
 </Project>

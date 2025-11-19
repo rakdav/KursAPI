@@ -23,26 +23,24 @@ namespace KursClient.Services
         }
         public override async Task Add(Chitateli obj)
         {
-            JsonContent content = JsonContent.Create(obj);
-            using var response = await httpClient.PostAsync("https://localhost:7229/api/Chitateli", content);
-            string responseText = await response.Content.ReadAsStringAsync();
-            if(responseText != null)
+            try
             {
-                Chitateli resp = JsonSerializer.Deserialize<Chitateli>(responseText!)!;
-                if (resp != null)
+                JsonContent content = JsonContent.Create(obj);
+                using var response = await httpClient.PostAsync("https://localhost:7229/api/Chitateli", content);
+                string responseText = await response.Content.ReadAsStringAsync();
+                if (responseText != null)
                 {
-                    MessageBox.Show("Читатель успешно создан!");
+                    Chitateli resp = JsonSerializer.Deserialize<Chitateli>(responseText!)!;
+                    if (resp == null) MessageBox.Show(responseText);
                 }
             }
-            else
-            {
-                MessageBox.Show(responseText);
-            }
+            catch { }
         }
 
-        public override Task Delete(Chitateli obj)
+        public override async Task Delete(Chitateli obj)
         {
-            throw new NotImplementedException();
+                using var response = await httpClient.DeleteAsync($"https://localhost:7229/api/Chitateli/{obj.ChitatelId}");
+            
         }
 
         public override async Task<List<Chitateli>> GetAll()
@@ -56,9 +54,21 @@ namespace KursClient.Services
             throw new NotImplementedException();
         }
 
-        public override Task Update(Chitateli obj)
+        public override async Task Update(Chitateli obj)
         {
-            throw new NotImplementedException();
+            try
+            {
+                JsonContent content = JsonContent.Create(obj);
+                using var response = await httpClient.PutAsync($"https://localhost:7229/api/Chitateli/{obj.ChitatelId}", content);
+                string responseText = await response.Content.ReadAsStringAsync();
+                if (responseText != null)
+                {
+                    Chitateli resp = JsonSerializer.Deserialize<Chitateli>(responseText!)!;
+                    if (resp == null) MessageBox.Show(responseText);
+                }
+               
+            }
+            catch { }
         }
     }
 }

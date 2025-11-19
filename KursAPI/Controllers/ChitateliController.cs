@@ -43,7 +43,7 @@ namespace KursAPI.Controllers
             await chitService.Update(chit);
             return Ok(chit);
         }
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             await chitService.Delete(id);

@@ -30,6 +30,17 @@ namespace KursClient.ViewModels
                 }
             }
         }
+
+        private Chitateli selected;
+        public Chitateli Selected
+        {
+            get { return selected; }
+            set
+            {
+                selected = value;
+                OnPropertyChanged(nameof(Selected));
+            }
+        }
         public ChitateliViewModel()
         {
             chitateliService=new ChitateliService();
@@ -60,14 +71,8 @@ namespace KursClient.ViewModels
                       {
                           AddEditChitatel window = new AddEditChitatel(new Chitateli());
                           if (window.ShowDialog() == true)
-                          {
-                              Chitateli chitatel = new Chitateli();
-                              chitatel.FirstName = window.Chitatel.FirstName;
-                              chitatel.LastName = window.Chitatel.LastName;
-                              chitatel.Email = window.Chitatel.Email;
-                              chitatel.Address = window.Chitatel.Address;
-                              chitatel.Phone = window.Chitatel.Phone;
-                              await chitateliService.Add(chitatel);
+                          {                             
+                              await chitateliService.Add(window.Chitatel);
                               Load();
                           }
                       }
@@ -75,6 +80,40 @@ namespace KursClient.ViewModels
                   }));
             }
         }
-
+        private RelayCommand editCommand;
+        public RelayCommand EditCommand
+        {
+            get
+            {
+                return editCommand ??
+                  (editCommand = new RelayCommand(async obj =>
+                  {
+                      Chitateli chitatel = (obj as Chitateli)!;
+                      AddEditChitatel window = new AddEditChitatel(chitatel);
+                      if (window.ShowDialog() == true)
+                      {
+                          await chitateliService.Update(window.Chitatel);
+                      }
+                  }));
+            }
+        }
+        private RelayCommand deleteCommand;
+        public RelayCommand DeleteCommand
+        {
+            get
+            {
+                return deleteCommand ??
+                  (deleteCommand = new RelayCommand(async obj =>
+                  {
+                      Chitateli chitatel = (obj as Chitateli)!;
+                      MessageBoxResult result = MessageBox.Show("Вы действительно хотите удалить объект " + chitatel!.FirstName + " " +chitatel.LastName, "Удаление объекта", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                      if (result == MessageBoxResult.Yes)
+                      {
+                          await chitateliService.Delete(chitatel);
+                          Load();
+                      }
+                  }));
+            }
+        }
     }
 }

@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:KursClient.Views"
              xmlns:vm="clr-namespace:KursClient.ViewModels"
              xmlns:Menu="clr-namespace:KursClient.Utills"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="900"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
@@ -28,6 +29,7 @@
                         <Image Source="/Assets/add.png"/>
                     </Button>
                     <Button Style="{StaticResource ToolBarButtonBaseStyle}"
+                         Command="{Binding DeleteCommand}" CommandParameter="{Binding Selected}"
                         Width="30"
                         Height="30" HorizontalAlignment="Right">
                         <Image Source="/Assets/Del.png"/>
@@ -35,7 +37,25 @@
                 </StackPanel>
                 <DataGrid ItemsSource="{Binding ChitateliList}"
                           AutoGenerateColumns="False"
-                          Grid.Row="1" IsReadOnly="True">
+                          Grid.Row="1" IsReadOnly="True"
+                          SelectedItem="{Binding Selected}" FontSize="14">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction
+                                Command="{Binding EditCommand}"
+                                CommandParameter="{Binding Selected}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Изменить" 
+                                      Command="{Binding EditCommand}"
+                                      CommandParameter="{Binding Selected}"/>
+                            <MenuItem Header="Удалить" 
+                                      Command="{Binding DeleteCommand}"
+                                      CommandParameter="{Binding Selected}"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Фамилия" Width="Auto" Binding="{Binding LastName}"/>
                         <DataGridTextColumn Header="Имя" Width="Auto" Binding="{Binding FirstName}"/>

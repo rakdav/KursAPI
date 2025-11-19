@@ -6,37 +6,57 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace KursClient.Services
 {
     public class ChitateliService : BaseService<Chitateli>
     {
-        public override bool Add(Chitateli obj)
+        private HttpClient httpClient;
+        public ChitateliService() 
         {
-            throw new NotImplementedException();
+            httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Add("Authorization",
+               "Bearer " + RegisterUser.access_token);
+        }
+        public override async Task Add(Chitateli obj)
+        {
+            JsonContent content = JsonContent.Create(obj);
+            using var response = await httpClient.PostAsync("https://localhost:7229/api/Chitateli", content);
+            string responseText = await response.Content.ReadAsStringAsync();
+            if(responseText != null)
+            {
+                Chitateli resp = JsonSerializer.Deserialize<Chitateli>(responseText!)!;
+                if (resp != null)
+                {
+                    MessageBox.Show("Читатель успешно создан!");
+                }
+            }
+            else
+            {
+                MessageBox.Show(responseText);
+            }
         }
 
-        public override bool Delete(Chitateli obj)
+        public override Task Delete(Chitateli obj)
         {
             throw new NotImplementedException();
         }
 
         public override async Task<List<Chitateli>> GetAll()
         {
-            HttpClient httpClient=new HttpClient();
-            httpClient.DefaultRequestHeaders.Add("Authorization",
-                "Bearer " + RegisterUser.access_token);
             return (await httpClient.GetFromJsonAsync<List<Chitateli>>("https://localhost:7229/api/Chitateli"))!;
         }
 
 
-        public override List<Chitateli> Search(string str)
+        public override Task<List<Chitateli>> Search(string str)
         {
             throw new NotImplementedException();
         }
 
-        public override bool Update(Chitateli obj)
+        public override Task Update(Chitateli obj)
         {
             throw new NotImplementedException();
         }

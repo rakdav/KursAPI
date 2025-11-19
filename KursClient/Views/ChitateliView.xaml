@@ -21,9 +21,17 @@
                     <RowDefinition Height="9*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                <StackPanel Grid.Row="0">
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button Style="{StaticResource ToolBarButtonBaseStyle}"
-                            Command="{Binding AddCommand}"/>
+                            Command="{Binding AddCommand}" Width="30"
+                            Height="30" HorizontalAlignment="Right">
+                        <Image Source="/Assets/add.png"/>
+                    </Button>
+                    <Button Style="{StaticResource ToolBarButtonBaseStyle}"
+                        Width="30"
+                        Height="30" HorizontalAlignment="Right">
+                        <Image Source="/Assets/Del.png"/>
+                    </Button>
                 </StackPanel>
                 <DataGrid ItemsSource="{Binding ChitateliList}"
                           AutoGenerateColumns="False"

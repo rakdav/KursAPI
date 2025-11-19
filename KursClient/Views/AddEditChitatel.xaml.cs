@@ -21,9 +21,11 @@ namespace KursClient.Views
     public partial class AddEditChitatel : Window
     {
         public Chitateli Chitatel { get;  private set; }
-        public AddEditChitatel()
+        public AddEditChitatel(Chitateli _chitateli)
         {
             InitializeComponent();
+            Chitatel = _chitateli;
+            DataContext = Chitatel;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

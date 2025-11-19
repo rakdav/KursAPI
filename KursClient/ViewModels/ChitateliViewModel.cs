@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -55,13 +56,22 @@ namespace KursClient.ViewModels
                 return addCommand ??
                   (addCommand = new RelayCommand(async obj =>
                   {
-                      AddEditChitatel window=new AddEditChitatel();
-                      if (window.ShowDialog() == true)
+                      try
                       {
-                          Chitateli chitatel=new Chitateli();
-                          chitatel.FirstName=window.Chitatel.FirstName;
-                          chitatel.LastName = window.Chitatel.LastName;
+                          AddEditChitatel window = new AddEditChitatel(new Chitateli());
+                          if (window.ShowDialog() == true)
+                          {
+                              Chitateli chitatel = new Chitateli();
+                              chitatel.FirstName = window.Chitatel.FirstName;
+                              chitatel.LastName = window.Chitatel.LastName;
+                              chitatel.Email = window.Chitatel.Email;
+                              chitatel.Address = window.Chitatel.Address;
+                              chitatel.Phone = window.Chitatel.Phone;
+                              await chitateliService.Add(chitatel);
+                              Load();
+                          }
                       }
+                      catch { }
                   }));
             }
         }

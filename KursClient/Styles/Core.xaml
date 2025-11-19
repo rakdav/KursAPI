@@ -2281,7 +2281,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+        <!--<Setter Property="Foreground" Value="{StaticResource TextBrush}"/>-->
     </Style>
 
     <!-- Slider -->
@@ -3337,7 +3337,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TreeView}">
                     <Grid>
-                        <Border x:Name="Border" Background="{TemplateBinding Background}" BorderBrush="{DynamicResource SolidBorderBrush}" 
+                        <Border x:Name="Border" Background="{TemplateBinding Background}" 
                                 BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3">
                             <ScrollViewer Focusable="False" Padding="4" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" CanContentScroll="False">
                                 <ItemsPresenter/>
@@ -4826,7 +4826,7 @@
 
     <JournalEntryUnifiedViewConverter x:Key="JournalEntryUnifiedViewConverterNavigationWindow"/>
 
-    <Style TargetType="{x:Type NavigationWindow}">
+    <!--<Style TargetType="{x:Type NavigationWindow}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Background" Value="{StaticResource ControlLightBackground}"/>
         <Setter Property="BorderBrush" Value="{StaticResource ControlBorderBrush}"/>
@@ -4890,5 +4890,5 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
+    </Style>-->
 </ResourceDictionary>

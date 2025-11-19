@@ -12,6 +12,7 @@
     <None Remove="Assets\add.png" />
     <None Remove="Assets\block.png" />
     <None Remove="Assets\book-open.png" />
+    <None Remove="Assets\Del.png" />
     <None Remove="Assets\home_page.png" />
     <None Remove="Assets\img_customer.png" />
     <None Remove="Assets\img_home.png" />
@@ -25,6 +26,7 @@
     <Resource Include="Assets\add.png" />
     <Resource Include="Assets\block.png" />
     <Resource Include="Assets\book-open.png" />
+    <Resource Include="Assets\Del.png" />
     <Resource Include="Assets\home_page.png" />
     <Resource Include="Assets\img_customer.png" />
     <Resource Include="Assets\img_home.png" />

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:KursClient.Views"
         mc:Ignorable="d"
         Background="#333"
-        Title="Добавление читателя" Height="410" Width="400">
+        Title="Добавление читателя" Height="590" Width="400">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -16,18 +16,35 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBox x:Name="FirstName" Text="{Binding FirstName}" Grid.Row="0" Margin="20 15"/>
-        <TextBox x:Name="LastName" Text="{Binding LastName}" Grid.Row="1" Margin="20 15"/>
-        <TextBox x:Name="Address" Text="{Binding Address}" Grid.Row="2" Margin="20 15"/>
-        <TextBox x:Name="Phone" Text="{Binding Phone}" Grid.Row="3" Margin="20 15"/>
-        <TextBox x:Name="Email" Text="{Binding Email}" Grid.Row="4" Margin="20 15"/>
+        <StackPanel Margin="0 5" Grid.Row="0">
+            <Label Content="Введите имя" Margin="20 0" Foreground="White"/>
+            <TextBox x:Name="FirstName" Text="{Binding FirstName}" Margin="20 0"/>
+        </StackPanel>
+        <StackPanel Margin="0 5" Grid.Row="1">
+            <Label Content="Введите фамилию" Margin="20 0" Foreground="White"/>
+            <TextBox x:Name="LastName" Text="{Binding LastName}" Grid.Row="1" Margin="20 15"/>
+        </StackPanel>
+        <StackPanel Margin="0 5" Grid.Row="2">
+            <Label Content="Введите адрес" Margin="20 0" Foreground="White"/>
+            <TextBox x:Name="Address" Text="{Binding Address}" Grid.Row="2" Margin="20 15"/>
+        </StackPanel>
+        <StackPanel Margin="0 5" Grid.Row="3">
+            <Label Content="Введите телефон" Margin="20 0" Foreground="White"/>
+            <TextBox x:Name="Phone" Text="{Binding Phone}" Grid.Row="3" Margin="20 15"/>
+        </StackPanel>
+        <StackPanel Margin="0 5" Grid.Row="4">
+            <Label Content="Введите email" Margin="20 0" Foreground="White"/>
+            <TextBox x:Name="Email" Text="{Binding Email}" Grid.Row="4" Margin="20 15"/>
+        </StackPanel>
         <Grid Grid.Row="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Content="OK" Grid.Column="0" Margin="20 10" Height="50" Click="Button_Click"/>
-            <Button Content="Cancel" Grid.Column="1" Margin="20 10" Height="50" Click="Button_Click_1"/>
+            <Button Content="OK" Grid.Column="0" Margin="20 10" Height="50" Click="Button_Click"
+                    Style="{StaticResource DialogStyle}"/>
+            <Button Content="Cancel" Grid.Column="1" Margin="20 10" Height="50" Click="Button_Click_1"
+                    Style="{StaticResource DialogStyle}"/>
         </Grid>
     </Grid>
 </Window>
